@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Florida REI Toolkit</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+```
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .header {
+        background: linear-gradient(135deg, #2c3e50, #34495e);
+        color: white;
+        padding: 30px;
+        text-align: center;
+    }
+
+    .header h1 {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+        font-weight: 700;
+    }
+
+    .header p {
+        font-size: 1.1em;
+        opacity: 0.9;
+    }
+
+    .tabs {
+        display: flex;
+        background: #f8f9fa;
+        border-bottom: 2px solid #e9ecef;
+        flex-wrap: wrap;
+    }
+
+    .tab-button {
+        flex: 1;
+        min-width: 150px;
+        padding: 20px;
+        background: none;
+        border: none;
+        font-size: 1.1em;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        color: #6c757d;
+    }
+
+    .tab-button.active {
+        background: white;
+        color: #2c3e50;
+        border-bottom: 3px solid #667eea;
+    }
+
+    .tab-button:hover {
+        background: #e9ecef;
+    }
+
+    .tab-content {
+        display: none;
+        padding: 30px;
+    }
+
+    .tab-content.active {
+        display: block;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 25px;
+        margin-bottom: 30px;
+    }
+
+    .form-group {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 12px;
+        border-left: 4px solid #667eea;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #2c3e50;
+    }
+
+    .form-group input, .form-group select {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        font-size: 16px;
+        transition: border-color 0.3s ease;
+    }
+
+    .form-group input:focus, .form-group select:focus {
+        outline: none;
+        border-color: #667eea;
+    }
+
+    .button {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        padding: 15px 30px;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.1em;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+        margin: 10px 5px;
+    }
+
+    .button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+    }
+
+    .results {
+        background: linear-gradient(135deg, #f8f9fa, #ffffff);
+        padding: 30px;
+        border-radius: 15px;
+        margin-top: 30px;
+        border: 2px solid #e9ecef;
+    }
+
+    .results h3 {
+        color: #2c3e50;
+        margin-bottom: 20px;
+        font-size: 1.5em;
+    }
+
+    .result-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid #e9ecef;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .result-item:last-child {
+        border-bottom: none;
+    }
+
+    .result-label {
+        font-weight: 600;
+        color: #495057;
+        flex: 1;
+        min-width: 200px;
+    }
+
+    .result-value {
+        font-size: 1.2em;
+        font-weight: 700;
+        text-align: right;
+    }
+
+    .profit {
+        color: #28a745;
+    }
+
+    .loss {
+        color: #dc3545;
+    }
+
+    .warning {
+        color: #ffc107;
+    }
+
+    .deal-summary {
+        background: linear-gradient(135deg, #28a745, #20c997);
+        color: white;
+        padding: 20px;
+        border-radius: 12px;
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .deal-summary.bad {
+        background: linear-gradient(135deg, #dc3545, #e83e8c);
+    }
+
+    .deal-summary.marginal {
+        background: linear-gradient(135deg, #ffc107, #fd7e14);
+    }
+
+    .comp-list {
+        margin: 20px 0;
+    }
+
+    .comp-item {
+        background: white;
+        padding: 15px;
+        border-radius: 8px;
+        margin: 10px 0;
+        border-left: 4px solid #667eea;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .buyers-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+    }
+
+    .buyer-card {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        border: 2px solid #e9ecef;
+        transition: transform 0.3s ease;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .buyer-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .resources-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 25px;
+    }
+
+    .resource-card {
+        background: white;
+        padding: 25px;
+        border-radius: 15px;
+        border: 2px solid #e9ecef;
+        text-align: center;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .resource-card:hover {
+        border-color: #667eea;
+        transform: translateY(-5px);
+    }
+
+    .resource-icon {
+        font-size: 3em;
+        margin-bottom: 15px;
+    }
+
+    .hide {
+        display: none;
+    }
+
+    .error-message {
+        background: #dc3545;
+        color: white;
+        padding: 10px;
+        border-radius: 6px;
+        margin: 10px 0;
+    }
+
+    .success-message {
+        background: #28a745;
+        color: white;
+        padding: 10px;
+        border-radius: 6px;
+        margin: 10px 0;
+    }
+
+    @media (max-width: 768px) {
+        .tabs {
+            flex-direction: column;
+        }
+        
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .result-item {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        
+        .result-value {
+            text-align: left;
+        }
+    }
+</style>
+```
+
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div style="display: flex; align-items: center; justify-content: center; gap: 15px; flex-wrap: wrap;">
+                <div style="background: white; width: 60px; height: 60px; border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <svg width="40" height="40" viewBox="0 0 40 40" style="fill: #667eea;">
+                        <!-- House shape -->
+                        <path d="M20 4L4 16v20h12v-12h8v12h12V16L20 4z" fill="#667eea"/>
+                        <!-- Florida state outline simplified -->
+                        <path d="M14 22c2-1 4 0 6 1s4 0 6-1v8c-2 1-4 0-6-1s-4 0-6 1v-8z" fill="white" opacity="0.9"/>
+                        <!-- Tool icon -->
+                        <rect x="18" y="8" width="4" height="2" rx="1" fill="white"/>
+                    </svg>
+                </div>
+                <div style="text-align: left;">
+                    <h1 style="margin: 0; font-size: 2.5em; font-weight: 700;">Florida REI Toolkit</h1>
+                    <p style="margin: 5px 0 0 0; font-size: 1.1em; opacity: 0.9;">Complete Analysis System for Real Estate Investors</p>
+                </div>
+            </div>
+        </div>
+
+```
+    <div class="tabs">
+        <button class="tab-button active" onclick="showTab('analyzer')">Deal Analyzer</button>
+        <button class="tab-button" onclick="showTab('comps')">Comp Tracker</button>
+        <button class="tab-button" onclick="showTab('buyers')">Buyers List</button>
+        <button class="tab-button" onclick="showTab('resources')">Free Resources</button>
+    </div>
+
+    <div id="analyzer" class="tab-content active">
+        <h2>📊 Deal Analysis Calculator</h2>
+        
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Property Address *</label>
+                <input type="text" id="address" placeholder="123 Main St, Orlando, FL">
+            </div>
+            
+            <div class="form-group">
+                <label>Asking Price ($) *</label>
+                <input type="number" id="askingPrice" placeholder="150000" min="0">
+            </div>
+            
+            <div class="form-group">
+                <label>Your Max Offer ($) *</label>
+                <input type="number" id="maxOffer" placeholder="120000" min="0">
+            </div>
+            
+            <div class="form-group">
+                <label>ARV - After Repair Value ($) *</label>
+                <input type="number" id="arv" placeholder="200000" min="0">
+            </div>
+            
+            <div class="form-group">
+                <label>Estimated Repairs ($) *</label>
+                <input type="number" id="repairs" placeholder="25000" min="0">
+            </div>
+            
+            <div class="form-group">
+                <label>Your Wholesale Fee ($)</label>
+                <input type="number" id="wholeFee" placeholder="10000" value="10000" min="0">
+            </div>
+            
+            <div class="form-group">
+                <label>Property Type</label>
+                <select id="propType">
+                    <option value="single">Single Family Home</option>
+                    <option value="condo">Condo/Townhome</option>
+                    <option value="multi">Multi-Family</option>
+                    <option value="vacant">Vacant Land</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Bedrooms</label>
+                <input type="number" id="beds" placeholder="3" min="0">
+            </div>
+            
+            <div class="form-group">
+                <label>Bathrooms</label>
+                <input type="number" id="baths" placeholder="2" step="0.5" min="0">
+            </div>
+            
+            <div class="form-group">
+                <label>Square Feet</label>
+                <input type="number" id="sqft" placeholder="1500" min="0">
+            </div>
+            
+            <div class="form-group">
+                <label>Year Built</label>
+                <input type="number" id="yearBuilt" placeholder="1995" min="1800" max="2025">
+            </div>
+            
+            <div class="form-group">
+                <label>Days on Market</label>
+                <input type="number" id="dom" placeholder="45" min="0">
+            </div>
+        </div>
+        
+        <div id="analyzer-messages"></div>
+        
+        <button class="button" onclick="analyzeDeal()">🔍 Analyze Deal</button>
+        <button class="button" onclick="resetForm()">🔄 Reset</button>
+        <button class="button" onclick="saveDeal()">💾 Save Deal</button>
+        
+        <div id="results" class="results hide">
+            <h3>📈 Deal Analysis Results</h3>
+            <div id="dealMetrics"></div>
+            <div id="dealSummary"></div>
+        </div>
+    </div>
+
+    <div id="comps" class="tab-content">
+        <h2>🏘️ Comparable Sales Tracker</h2>
+        <p><strong>How to find comps for FREE in Florida:</strong></p>
+        <ul style="margin: 20px 0; padding-left: 20px;">
+            <li><strong>Zillow.com</strong> - Search address, click "See more homes" → "Recently Sold"</li>
+            <li><strong>Realtor.com</strong> - Use "Sold" filter, adjust distance to 0.5 miles</li>
+            <li><strong>Redfin.com</strong> - Best for detailed sold data and price per sq ft</li>
+            <li><strong>County Property Appraiser Sites</strong> - Free access to all sale records (links below)</li>
+            <li><strong>FloridasPARCEL.com</strong> - Statewide property search system</li>
+        </ul>
+        
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Comp Address *</label>
+                <input type="text" id="compAddress" placeholder="456 Oak St, Tampa, FL">
+            </div>
+            
+            <div class="form-group">
+                <label>Sale Price ($) *</label>
+                <input type="number" id="compPrice" placeholder="195000" min="0">
+            </div>
+            
+            <div class="form-group">
+                <label>Beds/Baths</label>
+                <input type="text" id="compBedBath" placeholder="3/2">
+            </div>
+            
+            <div class="form-group">
+                <label>Square Feet</label>
+                <input type="number" id="compSqft" placeholder="1600" min="0">
+            </div>
+            
+            <div class="form-group">
+                <label>Sale Date</label>
+                <input type="date" id="compDate">
+            </div>
+            
+            <div class="form-group">
+                <label>Distance (miles)</label>
+                <input type="number" id="compDistance" placeholder="0.3" step="0.1" min="0">
+            </div>
+        </div>
+        
+        <div id="comp-messages"></div>
+        
+        <button class="button" onclick="addComp()">➕ Add Comparable</button>
+        <button class="button" onclick="clearComps()">🗑️ Clear All</button>
+        
+        <div id="compsList" class="comp-list"></div>
+    </div>
+
+    <div id="buyers" class="tab-content">
+        <h2>👥 Buyers List Manager</h2>
+        
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Buyer Name *</label>
+                <input type="text" id="buyerName" placeholder="John Smith">
+            </div>
+            
+            <div class="form-group">
+                <label>Phone *</label>
+                <input type="tel" id="buyerPhone" placeholder="(555) 123-4567">
+            </div>
+            
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="buyerEmail" placeholder="john@email.com">
+            </div>
+            
+            <div class="form-group">
+                <label>Investment Focus</label>
+                <select id="buyerFocus">
+                    <option value="flip">Fix & Flip</option>
+                    <option value="rental">Buy & Hold Rental</option>
+                    <option value="vacation">Vacation Rental</option>
+                    <option value="wholesale">Other Wholesaler</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Max Price Range ($)</label>
+                <input type="text" id="buyerPrice" placeholder="100000-250000">
+            </div>
+            
+            <div class="form-group">
+                <label>Preferred Areas</label>
+                <input type="text" id="buyerAreas" placeholder="Orlando, Tampa, Jacksonville">
+            </div>
+            
+            <div class="form-group">
+                <label>Cash Buyer?</label>
+                <select id="buyerCash">
+                    <option value="yes">Yes - Cash</option>
+                    <option value="hard">Hard Money</option>
+                    <option value="conventional">Conventional Loan</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Notes</label>
+                <input type="text" id="buyerNotes" placeholder="Met at Orlando REIA meeting, very active...">
+            </div>
+        </div>
+        
+        <div id="buyer-messages"></div>
+        
+        <button class="button" onclick="addBuyer()">➕ Add Buyer</button>
+        <button class="button" onclick="exportBuyers()">📤 Export List</button>
+        
+        <div id="buyersList" class="buyers-grid"></div>
+    </div>
+
+    <div id="resources" class="tab-content">
+        <h2>🔧 Free Resources for Florida Investors</h2>
+        
+        <div style="margin-bottom: 30px; padding: 20px; background: #e8f5e8; border-radius: 12px;">
+            <h3>🏛️ Florida County Property Appraiser Sites</h3>
+            <p style="margin-bottom: 15px;"><strong>Click your county for FREE property records, tax info, and ownership details:</strong></p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; font-size: 0.9em;">
+                <a href="https://www.bcpa.net/" target="_blank" style="color: #667eea;">Broward County</a>
+                <a href="https://www.miamidade.gov/pa/" target="_blank" style="color: #667eea;">Miami-Dade County</a>
+                <a href="https://www.pbcgov.org/papa/" target="_blank" style="color: #667eea;">Palm Beach County</a>
+                <a href="https://www.hcpafl.org/" target="_blank" style="color: #667eea;">Hillsborough County</a>
+                <a href="https://www.ocpafl.org/" target="_blank" style="color: #667eea;">Orange County</a>
+                <a href="https://www.pascopa.com/" target="_blank" style="color: #667eea;">Pasco County</a>
+                <a href="https://polk-county.net/offices/property-appraiser" target="_blank" style="color: #667eea;">Polk County</a>
+                <a href="https://www.coj.net/" target="_blank" style="color: #667eea;">Duval County (Jax)</a>
+                <a href="https://www.scpafl.org/" target="_blank" style="color: #667eea;">Sarasota County</a>
+                <a href="https://www.manateeprop.com/" target="_blank" style="color: #667eea;">Manatee County</a>
+                <a href="https://www.leepa.org/" target="_blank" style="color: #667eea;">Lee County</a>
+                <a href="https://www.collierappraiser.com/" target="_blank" style="color: #667eea;">Collier County</a>
+                <a href="https://www.bcpao.us/" target="_blank" style="color: #667eea;">Brevard County</a>
+                <a href="https://www.volusiaappraiser.com/" target="_blank" style="color: #667eea;">Volusia County</a>
+                <a href="https://www.seminoleappraisers.com/" target="_blank" style="color: #667eea;">Seminole County</a>
+                <a href="https://www.lakecountyfl.gov/" target="_blank" style="color: #667eea;">Lake County</a>
+                <a href="https://www.osceola.org/agencies/property_appraiser/" target="_blank" style="color: #667eea;">Osceola County</a>
+                <a href="https://www.pcpao.org/" target="_blank" style="color: #667eea;">Pinellas County</a>
+                <a href="https://www.ccappraiser.com/" target="_blank" style="color: #667eea;">Clay County</a>
+                <a href="https://www.stjohnspa.com/" target="_blank" style="color: #667eea;">St. Johns County</a>
+            </div>
+        </div>
+        
+        <div class="resources-grid">
+            <div class="resource-card">
+                <div class="resource-icon">🌴</div>
+                <h3>FloridaREIA.org</h3>
+                <p><strong><a href="https://www.floridareia.org/" target="_blank">FloridaREIA.org</a></strong></p>
+                <p>Statewide real estate investor association with local chapters</p>
+            </div>
+            
+            <div class="resource-card">
+                <div class="resource-icon">📊</div>
+                <h3>FloridasPARCEL</h3>
+                <p><strong><a href="https://www.floridasparcelpro.com/" target="_blank">FloridaspPARCEL.com</a></strong></p>
+                <p>Statewide property search across all Florida counties</p>
+            </div>
+            
+            <div class="resource-card">
+                <div class="resource-icon">🏠</div>
+                <h3>Florida MLS Access</h3>
+                <p><strong>Ask local Realtors for access</strong></p>
+                <p>Multiple MLS systems serve Florida regions</p>
+            </div>
+            
+            <div class="resource-card">
+                <div class="resource-icon">🎯</div>
+                <h3>Local REIA Chapters</h3>
+                <p><strong>Search "[Your City] REIA"</strong></p>
+                <p>Tampa, Orlando, Miami, Jacksonville chapters</p>
+            </div>
+            
+            <div class="resource-card">
+                <div class="resource-icon">💰</div>
+                <h3>BiggerPockets</h3>
+                <p><strong><a href="https://biggerpockets.com" target="_blank">BiggerPockets.com</a></strong></p>
+                <p>Free calculators and Florida investor forums</p>
+            </div>
+            
+            <div class="resource-card">
+                <div class="resource-icon">📱</div>
+                <h3>Facebook Groups</h3>
+                <p><strong>"Florida Real Estate Investors"</strong></p>
+                <p>Multiple groups for each major city</p>
+            </div>
+            
+            <div class="resource-card">
+                <div class="resource-icon">🏛️</div>
+                <h3>Florida Department of Revenue</h3>
+                <p><strong><a href="https://floridarevenue.com/" target="_blank">FloridaRevenue.com</a></strong></p>
+                <p>Property tax information and exemptions</p>
+            </div>
+            
+            <div class="resource-card">
+                <div class="resource-icon">📋</div>
+                <h3>Florida Statutes</h3>
+                <p><strong><a href="http://www.leg.state.fl.us/statutes/" target="_blank">Florida Legislature</a></strong></p>
+                <p>Real estate laws and regulations</p>
+            </div>
+        </div>
+        
+        <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 12px;">
+            <h3>📋 Weekly Florida Investor Action Checklist</h3>
+            <div style="margin-top: 15px;">
+                <label style="display: block; margin: 10px 0; cursor: pointer;">
+                    <input type="checkbox"> Check Zillow for new price reductions in target counties
+                </label>
+                <label style="display: block; margin: 10px 0; cursor: pointer;">
+                    <input type="checkbox"> Review MLS for days on market > 60
+                </label>
+                <label style="display: block; margin: 10px 0; cursor: pointer;">
+                    <input type="checkbox"> Drive neighborhoods for distressed properties
+                </label>
+                <label style="display: block; margin: 10px 0; cursor: pointer;">
+                    <input type="checkbox"> Follow up with 3 buyers from list
+                </label>
+                <label style="display: block; margin: 10px 0; cursor: pointer;">
+                    <input type="checkbox"> Post in Florida investor Facebook groups
+                </label>
+                <label style="display: block; margin: 10px 0; cursor: pointer;">
+                    <input type="checkbox"> Analyze 10 new properties across Florida
+                </label>
+                <label style="display: block; margin: 10px 0; cursor: pointer;">
+                    <input type="checkbox"> Check county foreclosure auctions
+                </label>
+                <label style="display: block; margin: 10px 0; cursor: pointer;">
+                    <input type="checkbox"> Network at local REIA chapter meeting
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Initialize data arrays
+    let deals = [];
+    let comps = [];
+    let buyers = [];
+
+    // Load data from localStorage on page load
+    function loadData() {
+        try {
+            deals = JSON.parse(localStorage.getItem('wholesale-deals') || '[]');
+            comps = JSON.parse(localStorage.getItem('wholesale-comps') || '[]');
+            buyers = JSON.parse(localStorage.getItem('wholesale-buyers') || '[]');
+        } catch (e) {
+            console.error('Error loading data:', e);
+            deals = [];
+            comps = [];
+            buyers = [];
+        }
+    }
+
+    // Save data to localStorage
+    function saveData() {
+        try {
+            localStorage.setItem('wholesale-deals', JSON.stringify(deals));
+            localStorage.setItem('wholesale-comps', JSON.stringify(comps));
+            localStorage.setItem('wholesale-buyers', JSON.stringify(buyers));
+        } catch (e) {
+            console.error('Error saving data:', e);
+            showMessage('Error saving data. Please try again.', 'error', 'analyzer-messages');
+        }
+    }
+
+    // Show message to user
+    function showMessage(message, type, containerId) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        
+        const messageDiv = document.createElement('div');
+        messageDiv.className = type === 'error' ? 'error-message' : 'success-message';
+        messageDiv.textContent = message;
+        
+        container.innerHTML = '';
+        container.appendChild(messageDiv);
+        
+        setTimeout(() => {
+            container.innerHTML = '';
+        }, 5000);
+    }
+
+    // Tab functionality
+    function showTab(tabName) {
+        // Remove active class from all tabs and buttons
+        document.querySelectorAll('.tab-content').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        document.querySelectorAll('.tab-button').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        
+        // Add active class to selected tab and button
+        document.getElementById(tabName).classList.add('active');
+        event.target.classList.add('active');
+    }
+
+    // Deal Analysis Functions
+    function analyzeDeal() {
+        try {
+            const address = document.getElementById('address').value.trim();
+            const askingPrice = parseFloat(document.getElementById('askingPrice').value) || 0;
+            const maxOffer = parseFloat(document.getElementById('maxOffer').value) || 0;
+            const arv = parseFloat(document.getElementById('arv').value) || 0;
+            const repairs = parseFloat(document.getElementById('repairs').value) || 0;
+            const wholeFee = parseFloat(document.getElementById('wholeFee').value) || 10000;
+
+            // Validation
+            if (!address) {
+                showMessage('Please enter a property address', 'error', 'analyzer-messages');
+                return;
+            }
+
+            if (!arv || arv <= 0) {
+                showMessage('Please enter a valid ARV (After Repair Value)', 'error', 'analyzer-messages');
+                return;
+            }
+
+            if (!askingPrice || askingPrice <= 0) {
+                showMessage('Please enter a valid asking price', 'error', 'analyzer-messages');
+                return;
+            }
+
+            if (!maxOffer || maxOffer <= 0) {
+                showMessage('Please enter your maximum offer', 'error', 'analyzer-messages');
+                return;
+            }
+
+            // Clear any previous messages
+            document.getElementById('analyzer-messages').innerHTML = '';
+
+            // Calculate key metrics
+            const maxAllowableOffer = (arv * 0.70) - repairs - wholeFee;
+            const buyerPurchasePrice = maxOffer + wholeFee;
+            const buyerAllInCost = buyerPurchasePrice + repairs;
+            const buyerProfit = arv - buyerAllInCost;
+            const buyerProfitPercent = arv > 0 ? (buyerProfit / arv) * 100 : 0;
+            const dealSpread = maxAllowableOffer - askingPrice;
+            const yourProfitMargin = wholeFee > 0 ? (wholeFee / maxOffer) * 100 : 0;
+
+            // Deal quality assessment
+            let dealQuality = 'good';
+            let dealMessage = 'Great Deal! ✅';
+            let dealColor = 'profit';
+
+            if (buyerProfitPercent < 15 || buyerProfit < 0) {
+                dealQuality = 'bad';
+                dealMessage = 'Not Profitable ❌';
+                dealColor = 'loss';
+            } else if (buyerProfitPercent < 25) {
+                dealQuality = 'marginal';
+                dealMessage = 'Marginal Deal ⚠️';
+                dealColor = 'warning';
+            }
+
+            const resultsHTML = `
+                <div class="result-item">
+                    <span class="result-label">Max Allowable Offer (70% Rule)</span>
+                    <span class="result-value ${maxAllowableOffer > askingPrice ? 'profit' : 'loss'}">$${formatNumber(maxAllowableOffer)}</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Your Offer vs Asking Price</span>
+                    <span class="result-value ${maxOffer < askingPrice ? 'profit' : 'loss'}">$${formatNumber(maxOffer)} vs $${formatNumber(askingPrice)}</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Deal Spread (MAO - Asking)</span>
+                    <span class="result-value ${dealSpread > 0 ? 'profit' : 'loss'}">$${formatNumber(dealSpread)}</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Buyer Purchase Price (Your Offer + Fee)</span>
+                    <span class="result-value">$${formatNumber(buyerPurchasePrice)}</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Buyer All-In Cost (Purchase + Repairs)</span>
+                    <span class="result-value">$${formatNumber(buyerAllInCost)}</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Buyer Potential Profit</span>
+                    <span class="result-value ${buyerProfit > 0 ? 'profit' : 'loss'}">$${formatNumber(buyerProfit)} (${buyerProfitPercent.toFixed(1)}%)</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Your Wholesale Fee</span>
+                    <span class="result-value profit">$${formatNumber(wholeFee)} (${yourProfitMargin.toFixed(1)}% of offer)</span>
+                </div>
+            `;
+
+            const summaryHTML = `
+                <div class="deal-summary ${dealQuality}">
+                    <h3>${dealMessage}</h3>
+                    <p><strong>Buyer Profit Margin:</strong> ${buyerProfitPercent.toFixed(1)}% | <strong>Your Fee:</strong> $${formatNumber(wholeFee)}</p>
+                    ${dealQuality === 'good' ? '<p>✅ This deal meets the 70% rule and provides good profit margins for your buyer</p>' : ''}
+                    ${dealQuality === 'marginal' ? '<p>⚠️ Marginal deal - may be harder to sell to buyers. Consider negotiating a lower price.</p>' : ''}
+                    ${dealQuality === 'bad' ? '<p>❌ This deal doesn\'t provide enough profit margin for buyers. Try to negotiate a much lower price.</p>' : ''}
+                </div>
+            `;
+
+            document.getElementById('dealMetrics').innerHTML = resultsHTML;
+            document.getElementById('dealSummary').innerHTML = summaryHTML;
+            document.getElementById('results').classList.remove('hide');
+
+            showMessage('Deal analysis complete!', 'success', 'analyzer-messages');
+
+        } catch (error) {
+            console.error('Error analyzing deal:', error);
+            showMessage('Error analyzing deal. Please check your inputs and try again.', 'error', 'analyzer-messages');
+        }
+    }
+
+    function resetForm() {
+        document.querySelectorAll('#analyzer input, #analyzer select').forEach(input => {
+            if (input.id !== 'wholeFee') {
+                input.value = '';
+            }
+        });
+        document.getElementById('results').classList.add('hide');
+        document.getElementById('analyzer-messages').innerHTML = '';
+    }
+
+    function saveDeal() {
+        try {
+            const dealData = {
+                id: Date.now(),
+                address: document.getElementById('address').value.trim(),
+                askingPrice: parseFloat(document.getElementById('askingPrice').value) || 0,
+                maxOffer: parseFloat(document.getElementById('maxOffer').value) || 0,
+                arv: parseFloat(document.getElementById('arv').value) || 0,
+                repairs: parseFloat(document.getElementById('repairs').value) || 0,
+                wholeFee: parseFloat(document.getElementById('wholeFee').value) || 10000,
+                propType: document.getElementById('propType').value,
+                beds: document.getElementById('beds').value,
+                baths: document.getElementById('baths').value,
+                sqft: document.getElementById('sqft').value,
+                yearBuilt: document.getElementById('yearBuilt').value,
+                dom: document.getElementById('dom').value,
+                dateAdded: new Date().toLocaleDateString()
+            };
+
+            if (!dealData.address) {
+                showMessage('Please enter a property address before saving', 'error', 'analyzer-messages');
+                return;
+            }
+
+            deals.push(dealData);
+            saveData();
+            showMessage('Deal saved successfully!', 'success', 'analyzer-messages');
+
+        } catch (error) {
+            console.error('Error saving deal:', error);
+            showMessage('Error saving deal. Please try again.', 'error', 'analyzer-messages');
+        }
+    }
+
+    // Comp Functions
+    function addComp() {
+        try {
+            const address = document.getElementById('compAddress').value.trim();
+            const price = parseFloat(document.getElementById('compPrice').value);
+            const bedBath = document.getElementById('compBedBath').value.trim();
+            const sqft = parseFloat(document.getElementById('compSqft').value) || 0;
+            const date = document.getElementById('compDate').value;
+            const distance = parseFloat(document.getElementById('compDistance').value) || 0;
+
+            if (!address || !price) {
+                showMessage('Please enter address and sale price', 'error', 'comp-messages');
+                return;
+            }
+
+            const comp = {
+                id: Date.now(),
+                address,
+                price,
+                bedBath,
+                sqft,
+                date,
+                distance,
+                pricePerSqft: sqft > 0 ? price / sqft : 0
+            };
+
+            comps.push(comp);
+            saveData();
+            displayComps();
+            clearCompForm();
+            showMessage('Comparable added successfully!', 'success', 'comp-messages');
+
+        } catch (error) {
+            console.error('Error adding comp:', error);
+            showMessage('Error adding comparable. Please try again.', 'error', 'comp-messages');
+        }
+    }
+
+    function displayComps() {
+        const compsList = document.getElementById('compsList');
+        if (comps.length === 0) {
+            compsList.innerHTML = '<p>No comparables added yet. Add some comps to see analysis.</p>';
+            return;
+        }
+
+        const avgPrice = comps.reduce((sum, comp) => sum + comp.price, 0) / comps.length;
+        const avgPricePerSqft = comps.filter(c => c.pricePerSqft > 0).reduce((sum, comp) => sum + comp.pricePerSqft, 0) / comps.filter(c => c.pricePerSqft > 0).length || 0;
+
+        let compsHTML = `
+            <div style="background: #e8f5e8; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                <h4>📊 Comp Analysis Summary</h4>
+                <p><strong>Average Sale Price:</strong> $${formatNumber(avgPrice)}</p>
+                <p><strong>Average Price/SqFt:</strong> $${avgPricePerSqft.toFixed(0)}</p>
+                <p><strong>Total Comps:</strong> ${comps.length}</p>
+            </div>
+        `;
+
+        comps.forEach(comp => {
+            compsHTML += `
+                <div class="comp-item">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                        <div>
+                            <strong>${comp.address}</strong><br>
+                            <span>Sale Price: $${formatNumber(comp.price)} | ${comp.bedBath} | ${comp.sqft} sqft</span><br>
+                            <span>Date: ${comp.date || 'Not specified'} | Distance: ${comp.distance} miles</span><br>
+                            ${comp.pricePerSqft > 0 ? `<span>Price/SqFt: $${comp.pricePerSqft.toFixed(0)}</span>` : ''}
+                        </div>
+                        <button class="button" onclick="removeComp(${comp.id})" style="background: #dc3545; padding: 8px 15px;">Remove</button>
+                    </div>
+                </div>
+            `;
+        });
+
+        compsList.innerHTML = compsHTML;
+    }
+
+    function clearCompForm() {
+        document.querySelectorAll('#comps input, #comps select').forEach(input => {
+            input.value = '';
+        });
+    }
+
+    function clearComps() {
+        comps = [];
+        saveData();
+        displayComps();
+        showMessage('All comparables cleared', 'success', 'comp-messages');
+    }
+
+    function removeComp(id) {
+        comps = comps.filter(comp => comp.id !== id);
+        saveData();
+        displayComps();
+    }
+
+    // Buyer Functions
+    function addBuyer() {
+        try {
+            const name = document.getElementById('buyerName').value.trim();
+            const phone = document.getElementById('buyerPhone').value.trim();
+            const email = document.getElementById('buyerEmail').value.trim();
+            const focus = document.getElementById('buyerFocus').value;
+            const priceRange = document.getElementById('buyerPrice').value.trim();
+            const areas = document.getElementById('buyerAreas').value.trim();
+            const cash = document.getElementById('buyerCash').value;
+            const notes = document.getElementById('buyerNotes').value.trim();
+
+            if (!name || !phone) {
+                showMessage('Please enter buyer name and phone number', 'error', 'buyer-messages');
+                return;
+            }
+
+            const buyer = {
+                id: Date.now(),
+                name,
+                phone,
+                email,
+                focus,
+                priceRange,
+                areas,
+                cash,
+                notes,
+                dateAdded: new Date().toLocaleDateString()
+            };
+
+            buyers.push(buyer);
+            saveData();
+            displayBuyers();
+            clearBuyerForm();
+            showMessage('Buyer added successfully!', 'success', 'buyer-messages');
+
+        } catch (error) {
+            console.error('Error adding buyer:', error);
+            showMessage('Error adding buyer. Please try again.', 'error', 'buyer-messages');
+        }
+    }
+
+    function displayBuyers() {
+        const buyersList = document.getElementById('buyersList');
+        if (buyers.length === 0) {
+            buyersList.innerHTML = '<p>No buyers in your list yet. Start building your buyers list!</p>';
+            return;
+        }
+
+        let buyersHTML = '';
+        buyers.forEach(buyer => {
+            buyersHTML += `
+                <div class="buyer-card">
+                    <h4>${buyer.name}</h4>
+                    <p><strong>Phone:</strong> <a href="tel:${buyer.phone}">${buyer.phone}</a></p>
+                    ${buyer.email ? `<p><strong>Email:</strong> <a href="mailto:${buyer.email}">${buyer.email}</a></p>` : ''}
+                    <p><strong>Focus:</strong> ${buyer.focus}</p>
+                    <p><strong>Price Range:</strong> $${buyer.priceRange}</p>
+                    <p><strong>Areas:</strong> ${buyer.areas}</p>
+                    <p><strong>Financing:</strong> ${buyer.cash}</p>
+                    ${buyer.notes ? `<p><strong>Notes:</strong> ${buyer.notes}</p>` : ''}
+                    <p><small>Added: ${buyer.dateAdded}</small></p>
+                    <button class="button" onclick="removeBuyer(${buyer.id})" style="background: #dc3545; padding: 8px 15px; margin-top: 10px;">Remove</button>
+                </div>
+            `;
+        });
+
+        buyersList.innerHTML = buyersHTML;
+    }
+
+    function clearBuyerForm() {
+        document.querySelectorAll('#buyers input, #buyers select').forEach(input => {
+            input.value = '';
+        });
+        document.getElementById('buyerFocus').selectedIndex = 0;
+        document.getElementById('buyerCash').selectedIndex = 0;
+    }
+
+    function removeBuyer(id) {
+        buyers = buyers.filter(buyer => buyer.id !== id);
+        saveData();
+        displayBuyers();
+    }
+
+    function exportBuyers() {
+        if (buyers.length === 0) {
+            showMessage('No buyers to export', 'error', 'buyer-messages');
+            return;
+        }
+
+        let csvContent = "Name,Phone,Email,Focus,Price Range,Areas,Financing,Notes,Date Added\n";
+        buyers.forEach(buyer => {
+            csvContent += `"${buyer.name}","${buyer.phone}","${buyer.email || ''}","${buyer.focus}","${buyer.priceRange}","${buyer.areas}","${buyer.cash}","${buyer.notes || ''}","${buyer.dateAdded}"\n`;
+        });
+
+        const blob = new Blob([csvContent], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `buyers-list-${new Date().toISOString().split('T')[0]}.csv`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+
+        showMessage('Buyers list exported successfully!', 'success', 'buyer-messages');
+    }
+
+    // Utility Functions
+    function formatNumber(num) {
+        return new Intl.NumberFormat('en-US').format(Math.round(num));
+    }
+
+    // Initialize the app
+    document.addEventListener('DOMContentLoaded', function() {
+        loadData();
+        displayComps();
+        displayBuyers();
+    });
+</script>
+```
+
+</body>
+</html>
